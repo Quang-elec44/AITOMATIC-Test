@@ -1,0 +1,6 @@
+__pycache__
+logs/
+*.pdf
+*.jsonl
+*.json 
+*.ipynb

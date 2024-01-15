@@ -21,7 +21,7 @@ def join_texts(page_infos: Tuple[str, Tuple[int]]):
     return output 
 
 
-def is_header(text: str, table_of_content: List[str], visited: List[bool]):
+def is_title(text: str, table_of_content: List[str], visited: List[bool]):
     text = text.lower()
     for i, header in enumerate(table_of_content):
         if visited[i]:
@@ -81,7 +81,7 @@ def extract(file_path: str, output_dir: str) -> None:
                         
             block_text = dehyphen(" ".join(block_text))
 
-            if is_header(block_text, table_of_content, visited):
+            if is_title(block_text, table_of_content, visited):
                 block_text = "<new_section> " + block_text
 
             if max_font_size <= MAX_FONT_SIZE and min_font_size >= MIN_FONT_SIZE:
@@ -118,7 +118,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--file_path", type=str)
-    parser.add_argument("--output_dir", type=str)
+    parser.add_argument("--output_dir", type=str, default="extracted_result.json")
     args = parser.parse_args()
 
     extract(**vars(args))
