@@ -1,4 +1,4 @@
-from typing import Any, Dict, Generator
+from typing import Any, Dict
 from fastapi import Response
 import pytest
 from src.openai_api import OpenAIAPI
