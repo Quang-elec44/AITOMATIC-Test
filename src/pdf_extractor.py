@@ -1,11 +1,11 @@
-import os
-import re 
 import json
+import os
+import re
 from typing import List, Tuple
-from tqdm import tqdm 
 
 import fitz
 from thefuzz import fuzz
+from tqdm import tqdm
 
 
 def join_texts(page_infos: Tuple[str, Tuple[int]]):
@@ -22,12 +22,13 @@ def join_texts(page_infos: Tuple[str, Tuple[int]]):
 
 
 def is_title(text: str, table_of_content: List[str], visited: List[bool]):
+    min_similarity = 80 
     text = text.lower()
     for i, header in enumerate(table_of_content):
         if visited[i]:
             continue
 
-        if fuzz.ratio(text, header) >= 80:
+        if fuzz.ratio(text, header) >= min_similarity:
             visited[i] = True 
             return True 
     return False 
@@ -45,11 +46,11 @@ def dehyphen(text: str) -> str:
 
 
 def extract(file_path: str, output_dir: str) -> None:
+        
+    max_text_font_size = 11
+    min_text_font_size = 7.1 
     print(f"Start extracting file {file_path}")
     os.makedirs(output_dir, exist_ok=True)
-
-    MAX_FONT_SIZE = 11
-    MIN_FONT_SIZE = 7.1 
 
     pdf_file = fitz.open(file_path)
     num_pages = len(list(pdf_file.pages()))
@@ -84,7 +85,7 @@ def extract(file_path: str, output_dir: str) -> None:
             if is_title(block_text, table_of_content, visited):
                 block_text = "<new_section> " + block_text
 
-            if max_font_size <= MAX_FONT_SIZE and min_font_size >= MIN_FONT_SIZE:
+            if max_font_size <= max_text_font_size and min_font_size >= min_text_font_size:
                 if re.search(r"Figure \d+", block_text) is not None:
                     figure_texts.append(block_text)
                 else:

@@ -1,11 +1,9 @@
 from typing import Literal, Union
 
-
 if __name__ == "__main__":
-    import os 
-    os.environ["OPENAI_API_KEY"] = "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"
     import argparse
-    from openai_api import OpenAIAPI
+
+    from src.openai_api import OpenAIAPI
     from utils import setup_logging
 
     parser = argparse.ArgumentParser()

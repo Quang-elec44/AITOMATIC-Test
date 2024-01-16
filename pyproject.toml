@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "aitomatic-test"
+version = "0.1.0"
+description = ""
+authors = ["Quangthd duyquang441998@gmail.com"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.109.0"
+uvicorn = {extras = ["standard"], version = "^0.25.0"}
+openai = "^1.7.2"
+jsonlines = "^4.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.1.13"
+pytest = "^7.4.4"
+pymupdf = "^1.23.14"
+thefuzz = "^0.20.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "B",
+    "SIM",
+    "I",
+    "N",
+    "PL",
+    "TCH"
+]
+ignore = ["D417", "E501", "PLR0913"]
+
+[tool.ruff]
+target-version = "py310"
+
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "tab"
+line-ending = "auto"
+docstring-code-format = true 

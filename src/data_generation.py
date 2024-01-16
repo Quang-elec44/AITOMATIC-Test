@@ -4,9 +4,8 @@ import random
 import time
 
 import jsonlines
-from tqdm import tqdm 
-from openai_api import OpenAIAPI
-
+from src.openai_api import OpenAIAPI
+from tqdm import tqdm
 
 BASE_PROMPT = """Given the following paragraph which is extracted from a conference paper
 ### PARAGRAPH
@@ -69,7 +68,7 @@ def main(
 
 if __name__ == "__main__":
     import argparse
-    import os 
+    import os
     os.environ["OPENAI_API_KEY"] = "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"
     from utils import setup_logging
     

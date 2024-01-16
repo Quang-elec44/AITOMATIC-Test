@@ -2,7 +2,7 @@ import json
 import logging
 from typing import Union
 
-import openai 
+import openai
 from openai.types.chat.chat_completion import ChatCompletion
 
 
@@ -43,10 +43,12 @@ class OpenAIAPI:
         n_epochs: Union[str, int],
         learning_rate_multiplier: Union[str, float],
     ) -> None:
-        data_creation_response = self.client.files.create(
-            file=open(train_data_path, "rb"),
-            purpose="fine-tune"
-        )
+        
+        with open(train_data_path, "rb") as f:
+            data_creation_response = self.client.files.create(
+                file=f,
+                purpose="fine-tune"
+            )
         self.logger.info(
             f"Submitted file {train_data_path} for fine-tuning | Id: {data_creation_response.id}"
         )
