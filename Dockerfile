@@ -8,6 +8,6 @@ COPY requirements.txt /app/requirements.txt
 
 RUN pip install -r requirements.txt 
 
-RUN export PYTHONPATH=./
+ENV PYTHONPATH=./
 
-CMD ["python src/app.py"]
+CMD ["python", "src/app.py"]
