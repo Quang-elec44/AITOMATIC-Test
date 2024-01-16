@@ -1,6 +1,8 @@
 __pycache__
 logs/
-*.pdf
 *.jsonl
 *.json 
 *.ipynb
+
+!data.json
+!train.jsonl 
