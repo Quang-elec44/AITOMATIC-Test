@@ -38,9 +38,7 @@ if __name__ == "__main__":
     config = Config()
     setup_logging()
 
-    if config.finetuned_file:
-        client.set_model_from_file(path_to_finetuned_file=config.finetuned_file)
-    elif config.finetuned_model:
+    if config.finetuned_model:
         client.set_model(model=config.finetuned_model)
     else:
         raise ValueError("Either finetuned_file or finetuned_model must be set")
