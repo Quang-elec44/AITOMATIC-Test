@@ -1,5 +1,4 @@
 import pytest
-
 from src.openai_api import OpenAIAPI
 from datetime import datetime
 from fastapi.testclient import TestClient
@@ -37,10 +36,20 @@ def test_app_with_fake_data(monkeypatch, client):
             created=int(datetime.now().timestamp()),
     )
 
-    def mock_openai_response(*args, **kwargs):
+    def mock_openai_successful_response(*args, **kwargs):
         return completion
+    
+    def mock_openai_failed_response(*args, **kwargs):
+        return None
 
-    monkeypatch.setattr(OpenAIAPI, 'invoke', mock_openai_response)
-    response = client.post("/chat", json={"question": "What is your name ?"})
+    def get_reponse():
+        return client.post("/chat", json={"question": "What is your name ?"})
+        
+    monkeypatch.setattr(OpenAIAPI, 'invoke', mock_openai_successful_response)
+    response = get_reponse()
     assert response.status_code == 200
     assert response.json()["answer"] == completion.choices[0].message.content
+
+    monkeypatch.setattr(OpenAIAPI, 'invoke', mock_openai_failed_response)
+    response = response = get_reponse()
+    assert response.status_code == 500, print(response.json())
