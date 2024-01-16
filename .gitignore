@@ -3,6 +3,4 @@ logs/
 *.jsonl
 *.json 
 *.ipynb
-
-!data.json
-!train.jsonl 
+*.pdf
