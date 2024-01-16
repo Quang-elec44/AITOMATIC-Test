@@ -26,7 +26,7 @@ def main(
         data_file: str, 
         max_questions: int = 100, 
         output_file: str = "train.jsonl"
-):
+) -> None:
     with open(data_file, "r", encoding="utf8") as jsf:
         data = json.load(jsf)
     

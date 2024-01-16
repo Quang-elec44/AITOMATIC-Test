@@ -39,9 +39,9 @@ class OpenAIAPI:
         train_data_path: str, 
         finetuning_file: str, 
         base_model: str,
-        batch_size: Union[str, int],
-        n_epochs: Union[str, int],
-        learning_rate_multiplier: Union[str, float],
+        batch_size: Union[str, int] = "auto",
+        n_epochs: Union[str, int] = "auto",
+        learning_rate_multiplier: Union[str, float] = "auto",
     ) -> None:
         
         with open(train_data_path, "rb") as f:

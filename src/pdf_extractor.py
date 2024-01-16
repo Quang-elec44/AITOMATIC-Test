@@ -1,16 +1,16 @@
 import json
 import os
 import re
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 import fitz
 from thefuzz import fuzz
 from tqdm import tqdm
 
 
-def join_texts(page_infos: Tuple[str, Tuple[int]]):
+def join_texts(page_infos: List[Tuple[str, Tuple[int, int, int, int]]]) -> List[str]:
     prev_y = 0
-    output = []
+    output: List[str] = []
     for text, bbox in page_infos:
         _, y0, _, y1 = bbox 
         if y0 >= prev_y or not output:
@@ -21,7 +21,7 @@ def join_texts(page_infos: Tuple[str, Tuple[int]]):
     return output 
 
 
-def is_title(text: str, table_of_content: List[str], visited: List[bool]):
+def is_title(text: str, table_of_content: List[str], visited: List[bool]) -> bool:
     min_similarity = 80 
     text = text.lower()
     for i, header in enumerate(table_of_content):
@@ -69,7 +69,7 @@ def extract(file_path: str, output_dir: str) -> None:
             block_text = []
             max_font_size = 0
             min_font_size = float("inf")
-            bbox = block["bbox"]
+            bbox: Tuple[int, int, int, int] = block["bbox"]
             for line in block["lines"]:
 
                 for span in line["spans"]:
@@ -100,9 +100,9 @@ def extract(file_path: str, output_dir: str) -> None:
     
     blocks =  " ".join(document_texts).split("<new_section> ")
     blocks = [block for block in blocks if block.strip()]
-    result = {"blocks": [], "figures": []}
+    result: Dict[str, List[dict]] = {"blocks": [], "figures": []}
     for block_id, block in enumerate(blocks):
-        result["blocks"].append({"id": block_id, "text": block, })
+        result["blocks"].append({"id": block_id, "text": block})
     
     for fig_id, figure_text in enumerate(figure_texts):
         result["figures"].append({"id": fig_id, "text": figure_text})

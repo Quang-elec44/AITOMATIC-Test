@@ -18,6 +18,7 @@ ruff = "^0.1.13"
 pytest = "^7.4.4"
 pymupdf = "^1.23.14"
 thefuzz = "^0.20.0"
+mypy = "^1.8.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -46,3 +47,16 @@ quote-style = "double"
 indent-style = "tab"
 line-ending = "auto"
 docstring-code-format = true 
+
+
+[tool.mypy]
+follow_imports = "skip"
+ignore_missing_imports = true
+warn_no_return = true
+warn_unused_ignores = true
+allow_untyped_globals = true
+allow_redefinition = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+show_error_codes = true
+pretty = true

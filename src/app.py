@@ -1,3 +1,4 @@
+from typing import Dict
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
@@ -17,12 +18,12 @@ app = FastAPI()
 client = OpenAIAPI()
 
 @app.get(path="/")
-def get():
+def get() -> str:
     return "Hello AITOMATIC"
 
 
 @app.post("/chat", response_model=Response)
-def qa(request: Request):
+def qa(request: Request) -> Dict[str, str]:
     text = request.question
     response = client.invoke(content=text)
     if response is None:

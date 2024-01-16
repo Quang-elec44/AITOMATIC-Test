@@ -1,3 +1,5 @@
+from typing import Any, Dict, Generator
+from fastapi import Response
 import pytest
 from src.openai_api import OpenAIAPI
 from datetime import datetime
@@ -8,17 +10,17 @@ from openai.types.chat.chat_completion import ChatCompletion, Choice
 from src.app import app 
 
 @pytest.fixture
-def client():
+def client() -> TestClient:
     return TestClient(app)
 
 
-def test_get(client):
+def test_get(client: TestClient) -> None:
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == "Hello AITOMATIC"
 
 
-def test_app_with_fake_data(monkeypatch, client):
+def test_app_with_fake_data(monkeypatch: pytest.MonkeyPatch, client: TestClient) -> None:
     completion = ChatCompletion(
         id="foo",
         model="gpt-3.5-turbo",
@@ -36,13 +38,13 @@ def test_app_with_fake_data(monkeypatch, client):
             created=int(datetime.now().timestamp()),
     )
 
-    def mock_openai_successful_response(*args, **kwargs):
+    def mock_openai_successful_response(*args: Any, **kwargs: Dict[str, Any]) -> None:
         return completion
     
-    def mock_openai_failed_response(*args, **kwargs):
+    def mock_openai_failed_response(*args: Any, **kwargs: Dict[str, Any]) -> None:
         return None
 
-    def get_reponse():
+    def get_reponse() -> Response:
         return client.post("/chat", json={"question": "What is your name ?"})
         
     monkeypatch.setattr(OpenAIAPI, 'invoke', mock_openai_successful_response)
